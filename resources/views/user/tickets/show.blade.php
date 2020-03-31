@@ -8,7 +8,7 @@
     </div>
     <div class="card-body">
         @include('layouts.alerts.main')
-        <form method="POST" action="{{ route('user.tickets.update') }}">
+        <form method="POST" action="{{ route('user.tickets.update', $ticket->id) }}">
             @csrf
             <div class="form-group">
                 <label for="">Subject</label>
