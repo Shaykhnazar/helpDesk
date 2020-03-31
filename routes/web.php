@@ -12,11 +12,22 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes([
+    'reset' => false,
+]);
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware('auth')->group(function(){
+
+    Route::middleware('manager')->namespace('Manager')->prefix('manager')->name('manager.')->group(function(){
+        Route::resource('/tickets', 'ManagerTicketController')->only([
+            'index', 'show'
+        ]);
+    });
+    Route::prefix('user')->name('user.')->group(function(){
+        Route::resource('/tickets', 'TicketsController')->only([
+            'index', 'show','create', 'store', 'destroy'
+        ]);
+    });
+    Route::get('/', 'HomeController@index')->name('home');
+
 });
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
