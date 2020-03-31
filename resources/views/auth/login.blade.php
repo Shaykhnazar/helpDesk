@@ -15,7 +15,7 @@
               <div class="col-lg-6">
                 <div class="p-5">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">@lang('Xush Kelibsiz!')</h1>
+                    <h1 class="h4 text-gray-900 mb-4">@lang('Welcome!')</h1>
                   </div>
                   <form class="user" method="POST" action="{{ route('login') }}">
                     @csrf
@@ -44,14 +44,14 @@
                     <div class="form-group">
                       <div class="custom-control custom-checkbox small">
                         <input type="checkbox" class="custom-control-input" id="customCheck" {{ old('remember') ? 'checked' : '' }}>
-                        <label class="custom-control-label" for="customCheck">{{ __('Eslab qolish') }}</label>
+                        <label class="custom-control-label" for="customCheck">{{ __('Remember me') }}</label>
                       </div>
                     </div>
 
                     <div class="form-group row mb-0">
                         <div class="col-md-12">
                             <button type="submit" class="btn btn-primary btn-user btn-block">
-                                {{ __('Kirish') }}
+                                {{ __('Login') }}
                             </button>
                         </div>
                     </div>

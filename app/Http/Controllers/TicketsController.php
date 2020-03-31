@@ -49,9 +49,9 @@ class TicketsController extends Controller
         ]);
         $extension = $request->file('file')->extension();
         if ($extension == 'txt') {
-            $file = $request->file('file')->store('manager', ['disk' => 'public']);
+            $file = $request->file('file')->store('user', ['disk' => 'public']);
         }else{
-            $image = $request->file('file')->store('manager', ['disk' => 'public']);
+            $image = $request->file('file')->store('user', ['disk' => 'public']);
             ImageResize::crop($image, 250, 250);
             $thumb = 'images/'.$image;
             Storage::disk('public')->delete($image);
