@@ -7,7 +7,7 @@ use App\Services\ImageResize;
 use Illuminate\Support\Facades\Storage;
 use App\Tickets;
 use Auth;
-use App\User;
+use App\User, App\Comments;
 use DB;
 class TicketsController extends Controller
 {
@@ -45,21 +45,22 @@ class TicketsController extends Controller
         $data = $request->validate([
             'subject' => 'required|min:3|max:100',
             'message' => 'required|min:2|max:100',
-            'file' => 'required|file|mimes:png,jpg,jpeg,txt',
+            'file' => 'required|file|mimes:png,jpg,jpeg,txt|max:2048',
         ]);
         $extension = $request->file('file')->extension();
+
         if ($extension == 'txt') {
             $file = $request->file('file')->store('user', ['disk' => 'public']);
         }else{
             $image = $request->file('file')->store('user', ['disk' => 'public']);
             ImageResize::crop($image, 250, 250);
-            $thumb = 'images/'.$image;
-            Storage::disk('public')->delete($image);
+            $thumb = 'thumbs/'.$image;
         }
         $create = [
             'subject' => $data['subject'],
             'message' => $data['message'],
-            'file' => $file ?? $thumb,
+            'file' => $file ?? $image,
+            'thumb' => $thumb ?? '',
             'status' => Tickets::STATUS_NEW,
             'slug' => uniqid(),
             'user_id' => Auth::user()->id,
@@ -100,18 +101,28 @@ class TicketsController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
+     * Leave comment to ticket
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        $ticket = Tickets::findOrFail($id);
+        if ($ticket->status != Tickets::STATUS_CLOSED) {
+            Comments::create([
+                'user_id'=> Auth::user()->id,
+                'ticket_id' => $id,
+            ]);
+            return redirect()->back()->with('success', 'Comment left successfully!');
+        }else{
+            return redirect()->back()->with('delete', 'Comment has not left.This ticket closed!');
+        }
+
     }
 
     /**
-     * Remove the specified resource from storage.
+     *  Update status ticket to closed.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

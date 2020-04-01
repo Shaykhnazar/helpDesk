@@ -13,7 +13,7 @@ class Tickets extends Model
                  STATUS_VIEWED  = 'viewed',
                  STATUS_OPENED  = 'open',
                  STATUS_SOLVED  = 'solved',
-                 STATUS_CLOSED  = 'close';
+                 STATUS_CLOSED  = 'closed';
 
     /**
      * table
