@@ -33,7 +33,7 @@
                                     <button id="btnGroupDrop1" type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                    <form method="POST" action="{{route('manager.tickets.destroy', $ticket->id)}}">
+                                    <form action="{{route('manager.ticket.solve', $ticket->id)}}">
                                         @csrf
                                         <button class="dropdown-item" style="color:red;" type="submit"><i class="fa fa-trash"></i>Solve</button>
                                     </form>

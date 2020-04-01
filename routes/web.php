@@ -19,9 +19,8 @@ Auth::routes([
 Route::middleware('auth')->group(function(){
 
     Route::middleware('manager')->namespace('Manager')->prefix('manager')->name('manager.')->group(function(){
-        Route::resource('/tickets', 'ManagerTicketController')->only([
-            'index','destroy','edit'
-        ]);
+        Route::resource('/tickets', 'ManagerTicketController');
+        Route::get('/tickets/{id}/solve', 'ManagerTicketController@solveTicket')->name('ticket.solve');
     });
     Route::prefix('user')->name('user.')->group(function(){
         Route::resource('/tickets', 'TicketsController');

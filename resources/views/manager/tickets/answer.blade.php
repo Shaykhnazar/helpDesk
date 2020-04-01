@@ -27,7 +27,7 @@
             <button type="submit" class="btn btn-success mb-2"><i class="fas fa-paper-plane"></i> Leave comment</button>
         </form>
         <div class="row p-2" style="float:right;">
-            <form method="POST" action="{{route('manager.tickets.destroy', $ticket->id)}}" >
+            <form action="{{route('manager.ticket.solve', $ticket->id)}}" >
                 @csrf
                 <button class="btn btn-warning mb-2" type="submit"><i class="fa fa-trash"></i> Solve ticket</button>
             </form>

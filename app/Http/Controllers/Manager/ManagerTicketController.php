@@ -76,14 +76,15 @@ class ManagerTicketController extends Controller
     /**
      * Update ticket status to solved.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  mixed $id
+     * @return void
      */
-    public function destroy($id)
+    public function solveTicket($id)
     {
         $ticket = Tickets::findOrFail($id);
         $ticket->update([
             'status' => Tickets::STATUS_SOLVED,
         ]);
+        return redirect()->route('manager.tickets.index')->with('success', 'Ticket solved successfully!');
     }
 }

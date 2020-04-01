@@ -122,7 +122,7 @@ class TicketsController extends Controller
     }
 
     /**
-     * Update status ticket to close
+     * Update status ticket to closed
      *
      * @param  mixed $id
      * @return void
@@ -137,14 +137,4 @@ class TicketsController extends Controller
 
     }
 
-    /**
-     *  Update status ticket to closed.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-
-    }
 }
