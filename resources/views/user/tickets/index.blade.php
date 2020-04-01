@@ -34,7 +34,7 @@
                                     <button id="btnGroupDrop1" type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                    <form method="GET" action="{{route('user.tickets.destroy', $ticket->id)}}">
+                                    <form method="GET" action="{{route('user.ticket.close', $ticket->id)}}">
                                         @csrf
                                         <button class="dropdown-item" style="color:red;" type="submit"><i class="fa fa-trash"></i>Close</button>
                                     </form>

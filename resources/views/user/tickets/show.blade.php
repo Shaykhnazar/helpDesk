@@ -34,7 +34,7 @@
             <button type="submit" class="btn btn-success mb-2"><i class="fas fa-paper-plane"></i> Leave comment</button>
         </form>
         <div class="row p-2" style="float:right;">
-            <form  action="{{route('user.tickets.destroy', $ticket->id)}}" class="align-right">
+            <form  action="{{route('user.ticket.close', $ticket->id)}}" class="align-right">
                 @csrf
                 <button class="btn btn-danger mb-2" type="submit"><i class="fa fa-trash"></i> Close ticket</button>
             </form>

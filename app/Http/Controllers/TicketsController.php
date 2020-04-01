@@ -73,7 +73,7 @@ class TicketsController extends Controller
         foreach (DB::select('select * from users where role = ?', [User::ROLE_MANAGER]) as $manager) {
 
         }
-        return redirect()->route('user.tickets.index')->with('Success', 'Ticket created successfully!');
+        return redirect()->route('user.tickets.index')->with('success', 'Ticket created successfully!');
     }
 
     /**
@@ -122,6 +122,22 @@ class TicketsController extends Controller
     }
 
     /**
+     * Update status ticket to close
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function closeTicket($id)
+    {
+        $ticket = Tickets::findOrFail($id);
+        $ticket->update([
+            'status' => Tickets::STATUS_CLOSED,
+        ]);
+        return redirect()->route('user.tickets.index')->with('success', 'Ticket closed successfully!');
+
+    }
+
+    /**
      *  Update status ticket to closed.
      *
      * @param  int  $id
@@ -129,9 +145,6 @@ class TicketsController extends Controller
      */
     public function destroy($id)
     {
-        $ticket = Tickets::findOrFail($id);
-        $ticket->update([
-            'status' => Tickets::STATUS_CLOSED,
-        ]);
+
     }
 }
