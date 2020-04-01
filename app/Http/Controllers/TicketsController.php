@@ -20,7 +20,7 @@ class TicketsController extends Controller
     public function index()
     {
         $paginate = 10;
-        $tickets = Tickets::orderBy('created_at', 'desc')->paginate($paginate);
+        $tickets = Tickets::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->paginate($paginate);
         return view('user.tickets.index', compact('tickets'));
     }
 
