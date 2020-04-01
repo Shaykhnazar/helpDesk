@@ -9,6 +9,8 @@ use App\Tickets;
 use Auth;
 use App\User, App\Comments;
 use DB;
+use Illuminate\Support\Carbon;
+
 class TicketsController extends Controller
 {
     /**
@@ -42,38 +44,47 @@ class TicketsController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'subject' => 'required|min:3|max:100',
-            'message' => 'required|min:2|max:100',
-            'file' => 'required|file|mimes:png,jpg,jpeg,txt|max:2048',
-        ]);
-        $extension = $request->file('file')->extension();
+        /* Check difference time interval for 24 hours begin*/
+        $ticket = Tickets::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->limit(1)->first();
+        $start  = new Carbon(strtotime($ticket->created_at));
+        $end    = new Carbon(strtotime(date('d:M:Y H:i:s', time())));
+        $diffHours = $start->diffInHours($end);
+        $limit  = 24;
+        // Hali tugatil magan Xoto chiqib duribdi
+        if($diffHours < $limit){
 
-        if ($extension == 'txt') {
-            $file = $request->file('file')->store('user', ['disk' => 'public']);
-        }else{
-            $image = $request->file('file')->store('user', ['disk' => 'public']);
-            ImageResize::crop($image, 250, 250);
-            $thumb = 'thumbs/'.$image;
+            $data = $request->validate([
+                'subject' => 'required|min:3|max:100',
+                'message' => 'required|min:2|max:100',
+                'file' => 'required|file|mimes:png,jpg,jpeg,txt|max:2048',
+            ]);
+            $extension = $request->file('file')->extension();
+
+            if ($extension == 'txt') {
+                $file = $request->file('file')->store('user', ['disk' => 'public']);
+            }else{
+                $image = $request->file('file')->store('user', ['disk' => 'public']);
+                ImageResize::crop($image, 250, 250);
+                $thumb = 'thumbs/'.$image;
+            }
+            $create = [
+                'subject' => $data['subject'],
+                'message' => $data['message'],
+                'file' => $file ?? $image,
+                'thumb' => $thumb ?? '',
+                'status' => Tickets::STATUS_NEW,
+                'slug' => uniqid(),
+                'user_id' => Auth::user()->id,
+            ];
+            Tickets::create($create);
+
+            /* Send mail to managers  */
+            foreach (DB::select('select * from users where role = ?', [User::ROLE_MANAGER]) as $manager) {
+
+            }
+            return redirect()->route('user.tickets.index')->with('success', 'Ticket created successfully!');
         }
-        $create = [
-            'subject' => $data['subject'],
-            'message' => $data['message'],
-            'file' => $file ?? $image,
-            'thumb' => $thumb ?? '',
-            'status' => Tickets::STATUS_NEW,
-            'slug' => uniqid(),
-            'user_id' => Auth::user()->id,
-        ];
-        Tickets::create($create);
-
-        /* Check difference time interval for 24 hours */
-
-        /* Send mail to managers  */
-        foreach (DB::select('select * from users where role = ?', [User::ROLE_MANAGER]) as $manager) {
-
-        }
-        return redirect()->route('user.tickets.index')->with('success', 'Ticket created successfully!');
+        return redirect()->route('user.tickets.index')->with('delete', 'You don\'t create a ticket now!');
     }
 
     /**
