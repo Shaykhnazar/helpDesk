@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Tickets extends Model
 {
     public const STATUS_NEW     = 'new',
-                 STATUS_OPENED  = 'opened',
+                 STATUS_VIEWED  = 'viewed',
+                 STATUS_OPENED  = 'open',
                  STATUS_SOLVED  = 'solved',
-                 STATUS_CLOSED  = 'closed';
+                 STATUS_CLOSED  = 'close';
 
     protected $table = 'tickets';
     protected $fillable = ['subject', 'message', 'file'];
