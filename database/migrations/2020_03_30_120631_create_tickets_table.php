@@ -18,10 +18,12 @@ class CreateTicketsTable extends Migration
             $table->string('subject');
             $table->text('message');
             $table->string('file');
+            $table->string('thumb');
             $table->string('status');
             $table->string('slug')->unique();
             $table->integer('comment_id')->unsigned();
             $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->integer('manager_id')->nullable();
             $table->timestamps();
         });
