@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function(){
     });
     Route::prefix('user')->name('user.')->group(function(){
         Route::resource('/tickets', 'TicketsController')->only([
-            'index', 'show','create', 'store', 'destroy'
+            'index', 'show','create', 'store', 'destroy', 'update'
         ]);
     });
     Route::get('/', 'HomeController@index')->name('home');
