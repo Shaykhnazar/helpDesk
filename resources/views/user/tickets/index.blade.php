@@ -15,7 +15,7 @@
                 <th>Subject</th>
                 <th>Created at</th>
                 <th>Status</th>
-                <th width="280px">Actions</th>
+                <th width="120px">Actions</th>
             </thead>
             <tbody>
                 @foreach($tickets as $ticket)
@@ -23,7 +23,7 @@
                     <td>{{ $ticket->id }}</td>
                     <td>{{ $ticket->subject }}</td>
                     <td>{{ $ticket->created_at }}</td>
-                    <td>{{ $ticket->status }}</td>
+                    <td >{{ $ticket->status }}</td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                             <div class="row">
@@ -34,9 +34,9 @@
                                     <button id="btnGroupDrop1" type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                    <form method="POST" action="{{route('user.tickets.destroy', $ticket->id)}}">
+                                    <form method="GET" action="{{route('user.tickets.destroy', $ticket->id)}}">
                                         @csrf
-                                        <button class="dropdown-item" type="submit"><i class="fa fa-trash"></i>Close</button>
+                                        <button class="dropdown-item" style="color:red;" type="submit"><i class="fa fa-trash"></i>Close</button>
                                     </form>
                                 </div>
                             </div>

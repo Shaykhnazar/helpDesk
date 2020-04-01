@@ -29,53 +29,23 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('user.tickets.index') }}">
                 <div class="sidebar-brand-icon">
                     <i class="fas fa-user-circle"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Client</div>
+                <div class="sidebar-brand-text mx-3">My account</div>
             </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Interface
-            </div>
+
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index">
+                <a class="nav-link" href="{{ route('user.tickets.index') }}">
                 <i class="fas fa-ticket-alt"></i>
                 <span>My Tickets</span></a>
             </li>
-
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-sort"></i>
-                    <span>Sort Tickets By:</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-
-                        <a class="collapse-item" href="#"><i style='font-size:18px' class='fas'>&#xf06e;</i>  Viewed</a>
-                        <a class="collapse-item" href="#"><i style='font-size:18px' class='fas'>&#xf070;</i>  Not viewed</a>
-                        <hr>
-                        <a class="collapse-item" href="#"><i style='font-size:18px' class='fas'>&#xf3c1;</i>  Opened</a>
-                        <a class="collapse-item" href="#"><i style='font-size:18px' class='fas'>&#xf023;</i>  Closed</a>
-                        <hr>
-                        <a class="collapse-item" href="#"><i style='font-size:18px' class="fas fa-comment"></i>  Answered</a>
-                        <a class="collapse-item" href="#"><i style='font-size:18px' class="fas fa-comment-slash"></i>  Not answered</a>
-
-                    </div>
-                </div>
-            </li>
-
-            <!-- Nav Item - Utilities Collapse Menu -->
-
-
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -129,15 +99,15 @@
                                         <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                                         <div class="input-group-append">
                                             <button class="btn btn-primary" type="button">
-                        <i class="fas fa-search fa-sm"></i>
-                        </button>
+                                        <i class="fas fa-search fa-sm"></i>
+                                        </button>
                                         </div>
                                     </div>
                                 </form>
                             </div>
                         </li>
 
-                        <!-- Nav Item - Alerts -->
+                        {{-- <!-- Nav Item - Alerts -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
@@ -188,7 +158,7 @@
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
-                        </li>
+                        </li> --}}
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -196,7 +166,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->name }}</span>
-                                <img class="img-profile rounded-circle" src="{{ asset('dashboard/img/user.webp') }}">
+                                <i style="font-size: 24px;" class="fas fa-user"></i>
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

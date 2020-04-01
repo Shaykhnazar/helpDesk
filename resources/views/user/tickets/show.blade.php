@@ -12,28 +12,33 @@
             @csrf
             <div class="form-group">
                 <label for="">Subject</label>
-                <input placeholder="{{old('subject')}}" class="form-control" name="subject" required type="text">
+                <input placeholder="{{ $ticket->subject}}" class="form-control" name="subject"  type="text">
             </div>
             <div class="form-group">
                 <label for="message">Message</label>
-                <textarea id="message" class="form-control" name="message" required rows="2" placeholder="{{ old('message') }}"></textarea>
+                <textarea id="message" class="form-control" name="message"  rows="2" placeholder="{{ $ticket->message }}"></textarea>
             </div>
             <div class="form-group">
                 <label for="">File </label>
-                <input class="form-control" name="file" required type="file">
+                <input class="form-control" name="file" value="" type="file">
+                @isset($ticket->thumb)
+                <p>
+                    <img class="card-img-bottom" style="width:150px;" src="{{ '/storage/'.$ticket->thumb }}" alt="">
+                </p>
+                @endisset
             </div>
             <div class="form-group">
                 <label for="comment">Comments</label>
                 <textarea id="comment" class="form-control" name="comment" rows="3" placeholder="{{ old('comment') }}"></textarea>
             </div>
-            <div class="row">
-                <button type="submit" class="btn btn-success">Leave comment</button>
-                <form method="POST" action="{{route('user.tickets.destroy', $ticket->id)}}">
-                    @csrf
-                    <button class="dropdown-item" type="submit"><i class="fa fa-trash"></i>Close ticket</button>
-                </form>
-            </div>
+            <button type="submit" class="btn btn-success mb-2"><i class="fas fa-paper-plane"></i> Leave comment</button>
         </form>
+        <div class="row p-2" style="float:right;">
+            <form  action="{{route('user.tickets.destroy', $ticket->id)}}" class="align-right">
+                @csrf
+                <button class="btn btn-danger mb-2" type="submit"><i class="fa fa-trash"></i> Close ticket</button>
+            </form>
+        </div>
     </div>
 </div>
 @endsection
