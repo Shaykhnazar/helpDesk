@@ -85,10 +85,19 @@ class ManagerTicketController extends Controller
     public function solveTicket($id)
     {
         $ticket = Tickets::findOrFail($id);
-        $ticket->update([
-            'status' => Tickets::STATUS_SOLVED,
-        ]);
-        return redirect()->route('manager.tickets.index')->with('success', 'Ticket solved successfully!');
+        if ($ticket->status != Tickets::STATUS_CLOSED) {
+            $ticket->update([
+                'status' => Tickets::STATUS_SOLVED,
+            ]);
+            return redirect()->route('manager.tickets.index')->with('success', 'Ticket solved successfully!');
+        }
+        if($ticket->status == Tickets::STATUS_NEW){
+
+            return redirect()->back()->with('delete', 'This ticket doesn\'t solve.Ticket is new!');
+        }
+
+        return redirect()->back()->with('delete', 'This ticket doesn\'t solve.Ticket closed!');
+
     }
 
     public function sortTicket($status)
