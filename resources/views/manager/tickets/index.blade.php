@@ -2,9 +2,27 @@
 @section('content')
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">
-            Tickets
-        </h6>
+        <div class="d-flex flex-row">
+            <h6 class="m-2 font-weight-bold text-primary">
+                Tickets
+            </h6>
+            <div class="dropdown">
+                <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Sort by:
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="background-color: bisque;">
+                  <a class="dropdown-item" href="{{ route('manager.ticket.sort', $status='viewed' ) }}"><i style='font-size:18px' class='fas'>&#xf06e;</i>  Viewed</a>
+                  <a class="dropdown-item" href="{{ route('manager.ticket.sort', $status='new' ) }}"><i style='font-size:18px' class='fas'>&#xf070;</i> Not viewed</a>
+                  <hr>
+                  <a class="dropdown-item" href="{{ route('manager.ticket.sort', $status='open' ) }}"><i style='font-size:18px' class='fas'>&#xf3c1;</i> Open</a>
+                  <a class="dropdown-item" href="{{ route('manager.ticket.sort', $status='closed' ) }}"><i style='font-size:18px' class='fas'>&#xf023;</i> Close</a>
+                  <hr>
+                  <a class="dropdown-item" href="{{ route('manager.ticket.sort', $status='solved' ) }}"><i style='font-size:18px' class="fas fa-comment"></i> Answered</a>
+                  <a class="dropdown-item" href="{{ route('manager.ticket.sort', $status='pending' ) }}"><i style='font-size:18px' class="fas fa-comment-slash"></i> Not answered</a>
+                </div>
+            </div>
+
+        </div>
     </div>
     <div class="card-body">
         @include('layouts.alerts.main')

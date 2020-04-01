@@ -56,14 +56,14 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
 
-                        <a class="collapse-item" href="#"><i style='font-size:18px' class='fas'>&#xf06e;</i>  Viewed</a>
-                        <a class="collapse-item" href="#"><i style='font-size:18px' class='fas'>&#xf070;</i>  Not viewed</a>
+                        <a class="collapse-item" href="{{ route('manager.ticket.sort', $status='viewed' ) }}"><i style='font-size:18px' class='fas'>&#xf06e;</i>  Viewed</a>
+                        <a class="collapse-item" href="{{ route('manager.ticket.sort', $status='new' ) }}"><i style='font-size:18px' class='fas'>&#xf070;</i>  Not viewed</a>
                         <hr>
-                        <a class="collapse-item" href="#"><i style='font-size:18px' class='fas'>&#xf3c1;</i>  Open</a>
-                        <a class="collapse-item" href="#"><i style='font-size:18px' class='fas'>&#xf023;</i>  Close</a>
+                        <a class="collapse-item" href="{{ route('manager.ticket.sort', $status='open' ) }}"><i style='font-size:18px' class='fas'>&#xf3c1;</i>  Open</a>
+                        <a class="collapse-item" href="{{ route('manager.ticket.sort', $status='closed' ) }}"><i style='font-size:18px' class='fas'>&#xf023;</i>  Close</a>
                         <hr>
-                        <a class="collapse-item" href="#"><i style='font-size:18px' class="fas fa-comment"></i>  Answered</a>
-                        <a class="collapse-item" href="#"><i style='font-size:18px' class="fas fa-comment-slash"></i>  Not answered</a>
+                        <a class="collapse-item" href="{{ route('manager.ticket.sort', $status='solved' ) }}"><i style='font-size:18px' class="fas fa-comment"></i>  Answered</a>
+                        <a class="collapse-item" href="{{ route('manager.ticket.sort', $status='pending' ) }}"><i style='font-size:18px' class="fas fa-comment-slash"></i>  Not answered</a>
 
                     </div>
                 </div>

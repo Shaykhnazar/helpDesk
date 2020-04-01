@@ -5,6 +5,7 @@
         <h6 class="m-0 font-weight-bold text-primary">
             Show ticket
         </h6>
+        <a class="btn btn-sm btn-primary float-right" href="{{route('manager.tickets.index')}}">Back</a>
     </div>
     <div class="card-body">
         @include('layouts.alerts.main')

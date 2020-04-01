@@ -12,6 +12,7 @@ class Tickets extends Model
     public const STATUS_NEW     = 'new',
                  STATUS_VIEWED  = 'viewed',
                  STATUS_OPENED  = 'open',
+                 STATUS_PENDING = 'pending',
                  STATUS_SOLVED  = 'solved',
                  STATUS_CLOSED  = 'closed';
 

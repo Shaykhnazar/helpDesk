@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function(){
     Route::middleware('manager')->namespace('Manager')->prefix('manager')->name('manager.')->group(function(){
         Route::resource('/tickets', 'ManagerTicketController');
         Route::get('/tickets/{id}/solve', 'ManagerTicketController@solveTicket')->name('ticket.solve');
+        Route::get('/tickets/index/{sortby}', 'ManagerTicketController@sortTicket')->name('ticket.sort');
     });
     Route::prefix('user')->name('user.')->group(function(){
         Route::resource('/tickets', 'TicketsController');

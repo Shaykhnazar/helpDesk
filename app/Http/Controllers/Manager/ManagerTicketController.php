@@ -51,13 +51,16 @@ class ManagerTicketController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
+     * And update status ticked to viewed.
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         $ticket = Tickets::findOrFail($id);
+        $ticket->update([
+            'status' => Tickets::STATUS_VIEWED,
+        ]);
         return view('manager.tickets.answer', compact('ticket'));
     }
 
@@ -86,5 +89,12 @@ class ManagerTicketController extends Controller
             'status' => Tickets::STATUS_SOLVED,
         ]);
         return redirect()->route('manager.tickets.index')->with('success', 'Ticket solved successfully!');
+    }
+
+    public function sortTicket($status)
+    {
+        $paginate = 10;
+        $tickets = Tickets::where('status', $status)->orderBy('created_at', 'desc')->paginate($paginate);
+        return view('manager.tickets.index', compact('tickets'));
     }
 }
