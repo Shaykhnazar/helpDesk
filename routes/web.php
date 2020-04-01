@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function(){
 
     Route::middleware('manager')->namespace('Manager')->prefix('manager')->name('manager.')->group(function(){
         Route::resource('/tickets', 'ManagerTicketController')->only([
-            'index', 'show'
+            'index','destroy','edit'
         ]);
     });
     Route::prefix('user')->name('user.')->group(function(){
