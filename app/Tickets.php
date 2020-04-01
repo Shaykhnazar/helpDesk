@@ -4,9 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Tickets
- */
 class Tickets extends Model
 {
     public const STATUS_NEW     = 'new',
@@ -15,9 +12,8 @@ class Tickets extends Model
                  STATUS_PENDING = 'pending',
                  STATUS_SOLVED  = 'solved',
                  STATUS_CLOSED  = 'closed';
-
     /**
-     * table
+     * get the table tickets
      *
      * @var string
      */
@@ -31,7 +27,9 @@ class Tickets extends Model
 
     /**
      * Relationship with user table
-     * Many to One(reverse)
+     * Get the Own user for the ticket
+     * One to many(inverse)
+     *
      * @return void
      */
     public function users()
@@ -41,7 +39,9 @@ class Tickets extends Model
 
     /**
      * Relationship with comments table
-     * Many to One
+     * One to many
+     * Get the comments for the Ticket
+     *
      * @return void
      */
     public function comments()
