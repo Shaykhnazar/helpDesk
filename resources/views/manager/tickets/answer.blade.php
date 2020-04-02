@@ -3,7 +3,7 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">
-            Show ticket
+            Show ticket <i style="color:red"> ID: {{ $ticket->id }}</i>
         </h6>
         <a class="btn btn-sm btn-primary float-right" href="{{route('manager.tickets.index')}}">Back</a>
     </div>
@@ -19,6 +19,9 @@
                 <img class="card-img-bottom" style="width:150px;" src="{{ '/storage/'.$ticket->thumb }}" alt="">
             </p>
         @endisset
+        {{-- @if (isset($ticket->file) && extension($ticket->file) == 'txt')
+            <a href="{{ '/storage/'.$ticket->file }}" target="_blank">file</a>
+        @endif --}}
         @isset($comments)
         <p>All Comments</p>
         <div class="container">
@@ -32,7 +35,7 @@
                                 </div>
                                 <div class="float-left meta">
                                     <div class="title h5">
-                                        <a href="#"><b>{{ $comment->user_id  }}</b></a>
+                                        <a href="#"><b>{{ ($comment->users->role == App\User::ROLE_MANAGER) ? 'Manager' : 'User' }}</b></a>
                                         made a post.
                                     </div>
                                     <h6 class="text-muted time">{{ (date_format($comment->created_at, 'Y-m-d H:i:s')) }}</h6>

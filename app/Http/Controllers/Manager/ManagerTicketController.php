@@ -50,17 +50,21 @@ class ManagerTicketController extends Controller
     public function show($id)
     {
         $ticket = Tickets::findOrFail($id);
+        $comments = $ticket->comments;
+
+        if($ticket->status == Tickets::STATUS_PENDING ){
+            return view('manager.tickets.answer', compact('ticket','comments'));
+
+        }
         if($ticket->status != Tickets::STATUS_CLOSED){
-            if ( $ticket->status != Tickets::STATUS_ANSWERED) {
+            if ( $ticket->status != Tickets::STATUS_ANSWERED || $ticket->status != Tickets::STATUS_SOLVED) {
                 $ticket->update([
                     'status' => Tickets::STATUS_VIEWED,
                 ]);
             }
         }
-        $comments = $ticket->comments;
 
         return view('manager.tickets.show', compact('ticket','comments'));
-
     }
 
     /**
@@ -107,18 +111,29 @@ class ManagerTicketController extends Controller
     {
         $ticket = Tickets::findOrFail($id);
         $comment = Comments::find($id);
+
+        if($ticket->status == Tickets::STATUS_NEW){
+
+            return redirect()->back()->with('delete', 'This ticket cannot be solved.Ticket is new!');
+        }
+        if($ticket->status == Tickets::STATUS_CLOSED){
+
+            return redirect()->back()->with('delete', 'This ticket cannot be solved.Ticket has been closed!');
+        }
+        if($ticket->status == Tickets::STATUS_VIEWED){
+
+            return redirect()->back()->with('delete', 'This ticket cannot be solved.This ticket has not yet been answered!');
+        }
+
         if ($ticket->status == Tickets::STATUS_ANSWERED || $comment->users->role == User::ROLE_MANAGER) {
             $ticket->update([
                 'status' => Tickets::STATUS_SOLVED,
             ]);
             return redirect()->route('manager.tickets.index')->with('success', 'Ticket solved successfully!');
         }
-        if($ticket->status == Tickets::STATUS_NEW){
 
-            return redirect()->back()->with('delete', 'This ticket doesn\'t solve.Ticket is new!');
-        }
 
-        return redirect()->back()->with('delete', 'This ticket doesn\'t solve.Ticket closed!');
+        return redirect()->back()->with('delete', 'This ticket doesn\'t to solve!');
 
     }
 

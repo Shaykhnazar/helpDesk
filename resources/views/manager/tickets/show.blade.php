@@ -3,7 +3,7 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">
-            Show ticket
+            Show ticket <i style="color:red"> ID: {{ $ticket->id }}</i>
         </h6>
         <a class="btn btn-sm btn-primary float-right" href="{{route('manager.tickets.index')}}">Back</a>
     </div>
@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="float-left meta">
                                     <div class="title h5">
-                                        <a href="#"><b>{{ $comment->user_id  }}</b></a>
+                                        <a href="#"><b>{{ ($comment->users->role == App\User::ROLE_MANAGER) ? 'Manager' : 'User' }}</b></a>
                                         made a post.
                                     </div>
                                     <h6 class="text-muted time">{{ (date_format($comment->created_at, 'Y-m-d H:i:s')) }}</h6>
