@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Manager;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Tickets;
+use App\Tickets, App\User;
 use App\Comments;
 use Auth;
 class ManagerTicketController extends Controller
@@ -49,6 +49,18 @@ class ManagerTicketController extends Controller
      */
     public function show($id)
     {
+        $ticket = Tickets::findOrFail($id);
+        if($ticket->status != Tickets::STATUS_CLOSED){
+            if ( $ticket->status != Tickets::STATUS_ANSWERED) {
+                $ticket->update([
+                    'status' => Tickets::STATUS_VIEWED,
+                ]);
+            }
+        }
+        $comments = $ticket->comments;
+
+        return view('manager.tickets.show', compact('ticket','comments'));
+
     }
 
     /**
@@ -60,9 +72,14 @@ class ManagerTicketController extends Controller
     public function edit($id)
     {
         $ticket = Tickets::findOrFail($id);
-        $ticket->update([
-            'status' => Tickets::STATUS_VIEWED,
-        ]);
+        if($ticket->status != Tickets::STATUS_CLOSED){
+            if ( $ticket->status != Tickets::STATUS_ANSWERED) {
+                $ticket->update([
+                    'status' => Tickets::STATUS_PENDING,
+                ]);
+            }
+        }
+
         $comments = $ticket->comments;
 
         return view('manager.tickets.answer', compact('ticket','comments'));
@@ -89,7 +106,8 @@ class ManagerTicketController extends Controller
     public function solveTicket($id)
     {
         $ticket = Tickets::findOrFail($id);
-        if ($ticket->status != Tickets::STATUS_CLOSED || $ticket->status == Tickets::STATUS_ANSWERED) {
+        $comment = Comments::find($id);
+        if ($ticket->status == Tickets::STATUS_ANSWERED || $comment->users->role == User::ROLE_MANAGER) {
             $ticket->update([
                 'status' => Tickets::STATUS_SOLVED,
             ]);
@@ -107,7 +125,12 @@ class ManagerTicketController extends Controller
     public function sortTicket($status)
     {
         $paginate = 10;
-        $tickets = Tickets::where('status', $status)->orderBy('created_at', 'desc')->paginate($paginate);
+        if($status == Tickets::STATUS_OPEN){
+            $tickets = Tickets::where('status', '!=', Tickets::STATUS_CLOSED)->orderBy('created_at', 'desc')->paginate($paginate);
+        }else{
+
+            $tickets = Tickets::where('status', $status)->orderBy('created_at', 'desc')->paginate($paginate);
+        }
         return view('manager.tickets.index', compact('tickets'));
     }
 
