@@ -34,10 +34,9 @@ class ManagerTicketController extends Controller
 
         if($ticket->status == Tickets::STATUS_PENDING ){
             return view('manager.tickets.answer', compact('ticket','comments'));
-
         }
-        if($ticket->status != Tickets::STATUS_CLOSED){
-            if ( $ticket->status != Tickets::STATUS_ANSWERED || $ticket->status != Tickets::STATUS_SOLVED) {
+        if($ticket->status != Tickets::STATUS_CLOSED  && $ticket->status != Tickets::STATUS_SOLVED ){
+            if ( $ticket->status != Tickets::STATUS_ANSWERED ) {
                 $ticket->update([
                     'status' => Tickets::STATUS_VIEWED,
                 ]);
@@ -57,6 +56,9 @@ class ManagerTicketController extends Controller
     public function edit($id)
     {
         $ticket = Tickets::findOrFail($id);
+        if($ticket->status == Tickets::STATUS_CLOSED){
+            return redirect()->back()->with('delete', 'This ticket has been closed!');
+        }
         if($ticket->status != Tickets::STATUS_CLOSED){
             if ( $ticket->status != Tickets::STATUS_ANSWERED) {
                 $ticket->update([
@@ -81,29 +83,15 @@ class ManagerTicketController extends Controller
         $ticket = Tickets::findOrFail($id);
         $comment = Comments::find($id);
 
-        if($ticket->status == Tickets::STATUS_NEW){
-
-            return redirect()->back()->with('delete', 'This ticket cannot be solved.Ticket is new!');
-        }
-        if($ticket->status == Tickets::STATUS_CLOSED){
-
-            return redirect()->back()->with('delete', 'This ticket cannot be solved.Ticket has been closed!');
-        }
-        if($ticket->status == Tickets::STATUS_VIEWED){
-
-            return redirect()->back()->with('delete', 'This ticket cannot be solved.This ticket has not yet been answered!');
-        }
-
-        if ($ticket->status == Tickets::STATUS_ANSWERED || $comment->users->role == User::ROLE_MANAGER) {
+        if ($ticket->status == Tickets::STATUS_ANSWERED && $comment->users->role == User::ROLE_MANAGER && ($ticket->status != Tickets::STATUS_VIEWED && $ticket->status != Tickets::STATUS_PENDING && $ticket->status != Tickets::STATUS_NEW)) {
             $ticket->update([
                 'status' => Tickets::STATUS_SOLVED,
             ]);
-            return redirect()->route('manager.tickets.index')->with('success', 'Ticket solved successfully!');
+            return redirect()->back()->with('success', 'Ticket solved successfully!');
+        }else{
+
+            return redirect()->back()->with('delete', 'This ticket doesn\'t to solve!');
         }
-
-
-        return redirect()->back()->with('delete', 'This ticket doesn\'t to solve!');
-
     }
 
     public function sortTicket($status)

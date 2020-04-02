@@ -51,7 +51,7 @@ class TicketsController extends Controller
         $end    = new Carbon(strtotime(date('d:M:Y H:i:s', time())));
         $diffHours = $start->diffInHours($end);
         $limit  = 24;
-        if($diffHours < $limit){
+        if($diffHours > $limit){
 
             $data = $request->validate([
                 'subject' => 'required|min:3|max:100',
@@ -91,7 +91,7 @@ class TicketsController extends Controller
             // }
             return redirect()->route('user.tickets.index')->with('success', 'Ticket created successfully!');
         }
-        return redirect()->route('user.tickets.index')->with('delete', 'You don\'t create a ticket now!');
+        return redirect()->route('user.tickets.index')->with('delete', 'You don\'t create a ticket now! You can create one a day.');
     }
 
     /**

@@ -45,7 +45,12 @@
                 <i class="fas fa-ticket-alt"></i>
                 <span>View All Tickets</span></a>
             </li>
-
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ route('manager.ticket.sort', $status='pending' ) }}">
+                <i class="fas fa-ticket-alt"></i>
+                <span>View Not Answered </span></a>
+            </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
