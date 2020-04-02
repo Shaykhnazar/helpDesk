@@ -38,7 +38,7 @@
                                     </div>
                                     <div class="float-left meta">
                                         <div class="title h5">
-                                            <a href="#"><b>{{ $comment->user_id  }}</b></a>
+                                            <a href="#"><b>{{ ($comment->users->role == 2) ? 'Manager' : 'User' }}</b></a>
                                             made a post.
                                         </div>
                                         <h6 class="text-muted time">{{ (date_format($comment->created_at, 'Y-m-d H:i:s')) }}</h6>

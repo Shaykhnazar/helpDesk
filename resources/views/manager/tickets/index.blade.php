@@ -44,7 +44,7 @@
                     <td>
                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                             <div class="row">
-                                <a href="{{ route('manager.tickets.edit', $ticket->id ) }}" class="btn btn-primary">
+                                <a href="{{ route('manager.tickets.show', $ticket->id ) }}" class="btn btn-primary">
                                     <i class="fa fa-eye"></i>
                                 </a>
                                 <div class="btn-group" role="group">

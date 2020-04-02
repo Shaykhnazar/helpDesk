@@ -29,7 +29,7 @@ class Comments extends Model
      */
     public function tickets()
     {
-        return $this->belongsTo('App\Tickets');
+        return $this->belongsTo('App\Tickets', 'ticket_id', 'id');
     }
 
     /**
@@ -40,7 +40,7 @@ class Comments extends Model
      */
     public function users()
     {
-        return $this->belongsTo('App\Users');
+        return $this->belongsTo('App\User', 'user_id', 'id');
     }
 
 
