@@ -19,7 +19,7 @@
                 <img class="card-img-bottom" style="width:150px;" src="{{ '/storage/'.$ticket->thumb }}" alt="">
             </p>
         @endisset
-        {{-- @if (isset($ticket->file) && extension($ticket->file) == 'txt')
+        {{-- @if (isset($ticket->file) && end(explode('.', $ticket->file)) == 'txt')
             <a href="{{ '/storage/'.$ticket->file }}" target="_blank">file</a>
         @endif --}}
         @isset($comments)

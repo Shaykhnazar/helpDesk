@@ -20,26 +20,6 @@ class ManagerTicketController extends Controller
         return view('manager.tickets.index', compact('tickets'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-
-    }
 
     /**
      * Display the specified resource.
@@ -70,6 +50,7 @@ class ManagerTicketController extends Controller
     /**
      * Show the form for editing the specified resource.
      * And update status ticked to viewed.
+     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -87,18 +68,6 @@ class ManagerTicketController extends Controller
         $comments = $ticket->comments;
 
         return view('manager.tickets.answer', compact('ticket','comments'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-
     }
 
     /**

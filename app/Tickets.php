@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tickets extends Model
 {
-    public const STATUS_NEW     = 'new',
-                 STATUS_PENDING = 'pending',
-                 STATUS_VIEWED  = 'viewed',
-                 STATUS_OPEN    = 'open',
-                 STATUS_ANSWERED= 'answered',
-                 STATUS_SOLVED  = 'solved',
-                 STATUS_CLOSED  = 'closed';
+    public const STATUS_NEW     = 'new',      // new created
+                 STATUS_PENDING = 'pending',  // viewed but not answered
+                 STATUS_VIEWED  = 'viewed',   // viewed by manager
+                 STATUS_OPEN    = 'open',     // not closed
+                 STATUS_ANSWERED= 'answered', // before viewed after answered
+                 STATUS_SOLVED  = 'solved',   // before answered after solved
+                 STATUS_CLOSED  = 'closed';   // closed by user
     /**
      * get the table tickets
      *

@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 use App\Services\ImageResize;
 use Illuminate\Support\Facades\Storage;
 use App\Tickets;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\User, App\Comments;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class TicketsController extends Controller
 {
@@ -50,7 +51,6 @@ class TicketsController extends Controller
         $end    = new Carbon(strtotime(date('d:M:Y H:i:s', time())));
         $diffHours = $start->diffInHours($end);
         $limit  = 24;
-        // Hali tugatil magan Xoto chiqib duribdi
         if($diffHours < $limit){
 
             $data = $request->validate([
@@ -79,9 +79,16 @@ class TicketsController extends Controller
             Tickets::create($create);
 
             /* Send mail to managers  */
-            foreach (DB::select('select * from users where role = ?', [User::ROLE_MANAGER]) as $manager) {
+            // foreach (DB::select('select * from users where role = ?', [User::ROLE_MANAGER]) as $manager) {
 
-            }
+            //     Mail::raw('New Ticket', function ($message) {
+            //         $message->from(Auth::user()->email, Auth::user()->name);
+            //         $message->sender('shayx3470941@gmail.com', 'Shaykhnazar madaminov');
+            //         $message->to($manager->email, $manager->name);
+            //         $message->subject($create['subject']);
+            //         $message->attach($create['file'] ?? $create['thumb']);
+            //     });
+            // }
             return redirect()->route('user.tickets.index')->with('success', 'Ticket created successfully!');
         }
         return redirect()->route('user.tickets.index')->with('delete', 'You don\'t create a ticket now!');
@@ -101,28 +108,6 @@ class TicketsController extends Controller
         return view('user.tickets.show', compact('ticket', 'comments'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * Leave comment to ticket
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-
-    }
 
     /**
      * Update status ticket to closed
