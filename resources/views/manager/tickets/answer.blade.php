@@ -19,11 +19,41 @@
                 <img class="card-img-bottom" style="width:150px;" src="{{ '/storage/'.$ticket->thumb }}" alt="">
             </p>
         @endisset
-        <form method="POST" action="{{ route('manager.tickets.update', $ticket->id) }}">
+        @isset($comments)
+        <p>All Comments</p>
+        <div class="container">
+            <div class="row">
+                <div class="col-8">
+                    @foreach ($comments as $comment)
+                        <div class="card card-white post">
+                            <div class="post-heading">
+                                <div class="float-left image">
+                                    <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
+                                </div>
+                                <div class="float-left meta">
+                                    <div class="title h5">
+                                        <a href="#"><b>{{ $comment->user_id  }}</b></a>
+                                        made a post.
+                                    </div>
+                                    <h6 class="text-muted time">{{ (date_format($comment->created_at, 'Y-m-d H:i:s')) }}</h6>
+                                </div>
+                            </div>
+                            <div class="post-description">
+                                <p>
+                                    {{ $comment->text }}
+                                </p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        @endisset
+        <hr>
+        <form method="POST" action="{{ route('manager.ticket.post.comment', $ticket->id) }}">
             @csrf
             <div class="form-group">
-                <label for="comment">Comments</label>
-                <textarea id="comment" class="form-control" name="comment" rows="3" placeholder="{{ old('comment') }}"></textarea>
+                <textarea id="comment" class="form-control" name="comment" rows="3" placeholder="Type comment..."></textarea>
             </div>
             <button type="submit" class="btn btn-success mb-2"><i class="fas fa-paper-plane"></i> Leave comment</button>
         </form>

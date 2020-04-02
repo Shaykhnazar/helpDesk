@@ -62,7 +62,7 @@
                         <a class="collapse-item" href="{{ route('manager.ticket.sort', $status='open' ) }}"><i style='font-size:18px' class='fas'>&#xf3c1;</i>  Open</a>
                         <a class="collapse-item" href="{{ route('manager.ticket.sort', $status='closed' ) }}"><i style='font-size:18px' class='fas'>&#xf023;</i>  Close</a>
                         <hr>
-                        <a class="collapse-item" href="{{ route('manager.ticket.sort', $status='solved' ) }}"><i style='font-size:18px' class="fas fa-comment"></i>  Answered</a>
+                        <a class="collapse-item" href="{{ route('manager.ticket.sort', $status='answered' ) }}"><i style='font-size:18px' class="fas fa-comment"></i>  Answered</a>
                         <a class="collapse-item" href="{{ route('manager.ticket.sort', $status='pending' ) }}"><i style='font-size:18px' class="fas fa-comment-slash"></i>  Not answered</a>
 
                     </div>

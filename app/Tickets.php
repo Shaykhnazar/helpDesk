@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Tickets extends Model
 {
     public const STATUS_NEW     = 'new',
-                 STATUS_VIEWED  = 'viewed',
-                 STATUS_OPENED  = 'open',
                  STATUS_PENDING = 'pending',
+                 STATUS_VIEWED  = 'viewed',
+                 STATUS_OPEN    = 'open',
+                 STATUS_ANSWERED= 'answered',
                  STATUS_SOLVED  = 'solved',
                  STATUS_CLOSED  = 'closed';
     /**
@@ -46,7 +47,7 @@ class Tickets extends Model
      */
     public function comments()
     {
-        return $this->hasMany('App\Comments');
+        return $this->hasMany('App\Comments', 'ticket_id', 'id');
     }
 }
 

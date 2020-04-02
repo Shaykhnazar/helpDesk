@@ -96,7 +96,9 @@ class TicketsController extends Controller
     public function show($id)
     {
         $ticket = Tickets::findOrFail($id);
-        return view('user.tickets.show', compact('ticket'));
+        $comments = $ticket->comments;
+
+        return view('user.tickets.show', compact('ticket', 'comments'));
     }
 
     /**
@@ -119,16 +121,6 @@ class TicketsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $ticket = Tickets::findOrFail($id);
-        if ($ticket->status != Tickets::STATUS_CLOSED) {
-            Comments::create([
-                'user_id'=> Auth::user()->id,
-                'ticket_id' => $id,
-            ]);
-            return redirect()->back()->with('success', 'Comment left successfully!');
-        }else{
-            return redirect()->back()->with('delete', 'Comment has not left.This ticket closed!');
-        }
 
     }
 
@@ -145,6 +137,33 @@ class TicketsController extends Controller
             'status' => Tickets::STATUS_CLOSED,
         ]);
         return redirect()->route('user.tickets.index')->with('success', 'Ticket closed successfully!');
+
+    }
+
+    /**
+     * Post Comment
+     * Create comment by user
+     *
+     * @param  mixed $request
+     * get comment text
+     * @param  mixed $id
+     * get ticket id
+     * @return void
+     * leave comment to mail of manager
+     */
+    public function postComment(Request $request, $id)
+    {
+        $ticket = Tickets::findOrFail($id);
+        if ($ticket->status != Tickets::STATUS_CLOSED) {
+            Comments::create([
+                'user_id'=> Auth::user()->id,
+                'ticket_id' => $id,
+                'text' =>$request->comment,
+            ]);
+            return redirect()->back()->with('success', 'Comment left successfully!');
+        }else{
+            return redirect()->back()->with('delete', 'Comment has not left.This ticket closed!');
+        }
 
     }
 
