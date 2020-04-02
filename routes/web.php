@@ -22,10 +22,12 @@ Route::middleware('auth')->group(function(){
         Route::resource('/tickets', 'ManagerTicketController');
         Route::get('/tickets/{id}/solve', 'ManagerTicketController@solveTicket')->name('ticket.solve');
         Route::get('/tickets/index/{sortby}', 'ManagerTicketController@sortTicket')->name('ticket.sort');
-    });
-    Route::prefix('user')->name('user.')->group(function(){
-        Route::resource('/tickets', 'TicketsController');
+        Route::post('/tickets/{id}/comment', 'ManagerTicketController@postComment')->name('ticket.post.comment');
 
+    });
+    Route::middleware('user')->prefix('user')->name('user.')->group(function(){
+        Route::resource('/tickets', 'TicketsController');
+        Route::post('/tickets/{id}/comment', 'TicketsController@postComment')->name('ticket.post.comment');
         Route::get('/tickets/{id}/close', 'TicketsController@closeTicket')->name('ticket.close');
     });
     Route::get('/', 'HomeController@index')->name('home');
