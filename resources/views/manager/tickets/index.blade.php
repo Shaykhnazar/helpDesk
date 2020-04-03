@@ -44,14 +44,14 @@
                     <td>
                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                             <div class="row">
-                                <a href="{{ route('manager.tickets.show', $ticket->id ) }}" class="btn btn-primary">
+                                <a href="{{ route('manager.tickets.show', $ticket->slug ) }}" class="btn btn-primary">
                                     <i class="fa fa-eye"></i>
                                 </a>
                                 <div class="btn-group" role="group">
                                     <button id="btnGroupDrop1" type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                    <form action="{{route('manager.ticket.solve', $ticket->id)}}">
+                                    <form action="{{route('manager.ticket.solve', $ticket->slug)}}">
                                         @csrf
                                         <button class="dropdown-item" style="color:red;" type="submit"><i class="fa fa-trash"></i>Solve</button>
                                     </form>

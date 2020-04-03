@@ -1,4 +1,4 @@
-@extends('layouts.user', ['title' =>'Show tickets'])
+@extends('layouts.user', ['title' =>'My tickets'])
 @section('content')
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -27,14 +27,14 @@
                     <td>
                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
                             <div class="row">
-                                <a href="{{ route('user.tickets.show', $ticket->id ) }}" class="btn btn-primary">
+                                <a href="{{ route('user.tickets.show', $ticket->slug ) }}" class="btn btn-primary">
                                     <i class="fa fa-eye"></i>
                                 </a>
                                 <div class="btn-group" role="group">
                                     <button id="btnGroupDrop1" type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                    <form method="GET" action="{{route('user.ticket.close', $ticket->id)}}">
+                                    <form method="GET" action="{{route('user.ticket.close', $ticket->slug)}}">
                                         @csrf
                                         <button class="dropdown-item" style="color:red;" type="submit"><i class="fa fa-trash"></i>Close</button>
                                     </form>

@@ -11,6 +11,7 @@ use App\User, App\Comments;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\CreatedTicket;
 
 class TicketsController extends Controller
 {
@@ -79,16 +80,10 @@ class TicketsController extends Controller
             Tickets::create($create);
 
             /* Send mail to managers  */
-            // foreach (DB::select('select * from users where role = ?', [User::ROLE_MANAGER]) as $manager) {
-
-            //     Mail::raw('New Ticket', function ($message) {
-            //         $message->from(Auth::user()->email, Auth::user()->name);
-            //         $message->sender('shayx3470941@gmail.com', 'Shaykhnazar madaminov');
-            //         $message->to($manager->email, $manager->name);
-            //         $message->subject($create['subject']);
-            //         $message->attach($create['file'] ?? $create['thumb']);
-            //     });
-            // }
+            foreach (DB::select('select * from users where role = ?', [User::ROLE_MANAGER]) as $manager) {
+                Mail::to($manager->email)->send(new CreatedTicket($manager->name, $create['subject'], $ticket->slug, $manager->email));
+            }
+            /* Send mail to managers  */
             return redirect()->route('user.tickets.index')->with('success', 'Ticket created successfully!');
         }
         return redirect()->route('user.tickets.index')->with('delete', 'You don\'t create a ticket now! You can create one a day.');
@@ -100,9 +95,9 @@ class TicketsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $ticket = Tickets::findOrFail($id);
+        $ticket = Tickets::where('slug', $slug)->first();
         $comments = $ticket->comments;
 
         return view('user.tickets.show', compact('ticket', 'comments'));
@@ -115,9 +110,9 @@ class TicketsController extends Controller
      * @param  mixed $id
      * @return void
      */
-    public function closeTicket($id)
+    public function closeTicket($slug)
     {
-        $ticket = Tickets::findOrFail($id);
+        $ticket = Tickets::where('slug', $slug);
         $ticket->update([
             'status' => Tickets::STATUS_CLOSED,
         ]);
@@ -136,13 +131,13 @@ class TicketsController extends Controller
      * @return void
      * leave comment to mail of manager
      */
-    public function postComment(Request $request, $id)
+    public function postComment(Request $request, $slug)
     {
-        $ticket = Tickets::findOrFail($id);
+        $ticket = Tickets::where('slug',$slug)->first();
         if ($ticket->status != Tickets::STATUS_CLOSED) {
             Comments::create([
                 'user_id'=> Auth::user()->id,
-                'ticket_id' => $id,
+                'ticket_id' => $ticket->id,
                 'text' =>$request->comment,
             ]);
             return redirect()->back()->with('success', 'Comment left successfully!');

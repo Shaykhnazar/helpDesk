@@ -51,7 +51,7 @@
         @endisset
 
         <div class="row p-2" >
-            <form action="{{route('manager.tickets.edit', $ticket->id)}}" >
+            <form action="{{route('manager.tickets.edit', $ticket->slug)}}" >
                 @csrf
                 <button class="btn btn-warning mb-2" type="submit"><i class="far fa-calendar-check"></i> Accept ticket</button>
             </form>

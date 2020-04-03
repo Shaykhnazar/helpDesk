@@ -48,7 +48,7 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('manager.ticket.sort', $status='pending' ) }}">
-                <i class="fas fa-ticket-alt"></i>
+                <i style='font-size:14px' class="fas fa-comment-slash"></i>
                 <span>View Not Answered </span></a>
             </li>
 

@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Tickets, App\User;
 use App\Comments;
 use Auth;
+use Mail;
+use App\Mail\MailtrapExample;
+
+
 class ManagerTicketController extends Controller
 {
     /**
@@ -27,9 +31,9 @@ class ManagerTicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $ticket = Tickets::findOrFail($id);
+        $ticket = Tickets::where('slug',$slug)->first();
         $comments = $ticket->comments;
 
         if($ticket->status == Tickets::STATUS_PENDING ){
@@ -53,9 +57,9 @@ class ManagerTicketController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        $ticket = Tickets::findOrFail($id);
+        $ticket = Tickets::where('slug', $slug)->first();
         if($ticket->status == Tickets::STATUS_CLOSED){
             return redirect()->back()->with('delete', 'This ticket has been closed!');
         }
@@ -74,19 +78,22 @@ class ManagerTicketController extends Controller
 
     /**
      * Update ticket status to solved.
-     *
+     * Send changes to email user
      * @param  mixed $id
      * @return void
      */
-    public function solveTicket($id)
+    public function solveTicket($slug)
     {
-        $ticket = Tickets::findOrFail($id);
-        $comment = Comments::find($id);
+        $ticket = Tickets::where('slug',$slug)->first();
+        $comment = Comments::find($ticket->id);
 
         if ($ticket->status == Tickets::STATUS_ANSWERED && $comment->users->role == User::ROLE_MANAGER && ($ticket->status != Tickets::STATUS_VIEWED && $ticket->status != Tickets::STATUS_PENDING && $ticket->status != Tickets::STATUS_NEW)) {
             $ticket->update([
                 'status' => Tickets::STATUS_SOLVED,
             ]);
+            /* send mail to user */
+            Mail::to($ticket->users->email)->send(new MailtrapExample($ticket->users->name, $comment= '',$ticket->slug, $statusChanged='solved'));
+            /* send mail to user */
             return redirect()->back()->with('success', 'Ticket solved successfully!');
         }else{
 
@@ -94,6 +101,12 @@ class ManagerTicketController extends Controller
         }
     }
 
+    /**
+     * sortTicket
+     *
+     * @param  mixed $status
+     * @return void
+     */
     public function sortTicket($status)
     {
         $paginate = 10;
@@ -106,10 +119,10 @@ class ManagerTicketController extends Controller
         return view('manager.tickets.index', compact('tickets'));
     }
 
-        /**
+    /**
      * Post Comment
      * Create comment by manager
-     *
+     * Send changes to emai user
      * @param  mixed $request
      * get comment text
      * @param  mixed $id
@@ -117,18 +130,21 @@ class ManagerTicketController extends Controller
      * @return void
      * leave comment to user's mail
      */
-    public function postComment(Request $request, $id)
+    public function postComment(Request $request, $slug)
     {
-        $ticket = Tickets::findOrFail($id);
+        $ticket = Tickets::where('slug',$slug)->first();
         if ($ticket->status != Tickets::STATUS_CLOSED) {
             Comments::create([
                 'user_id'=> Auth::user()->id,
-                'ticket_id' => $id,
+                'ticket_id' => $ticket->id,
                 'text' =>$request->comment,
             ]);
             $ticket->update([
                 'status' => Tickets::STATUS_ANSWERED,
             ]);
+            /* send mail to user */
+            Mail::to($ticket->users->email)->send(new MailtrapExample($ticket->users->name, $request->comment,$ticket->slug, $statusChanged='',$ticket->users->email));
+            /* send mail to user */
             return redirect()->back()->with('success', 'Comment left successfully!');
         }else{
             return redirect()->back()->with('delete', 'Comment has not left.This ticket closed!');

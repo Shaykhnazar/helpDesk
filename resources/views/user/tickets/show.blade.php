@@ -1,4 +1,4 @@
-@extends('layouts.user', ['title' =>'My tickets'])
+@extends('layouts.user', ['title' =>'Show tickets'])
 @section('content')
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -56,7 +56,7 @@
             </div>
             @endisset
         <hr>
-        <form method="POST" action="{{ route('user.ticket.post.comment', $ticket->id) }}">
+        <form method="POST" action="{{ route('user.ticket.post.comment', $ticket->slug) }}">
             @csrf
             <div class="form-group">
                 <textarea id="comment" class="form-control" name="comment" rows="3" placeholder="Type comment..."></textarea>
@@ -64,7 +64,7 @@
             <button type="submit" class="btn btn-success mb-2"><i class="fas fa-paper-plane"></i> Leave comment</button>
         </form>
         <div class="row p-2" style="float:right;">
-            <form  action="{{route('user.ticket.close', $ticket->id)}}" class="align-right">
+            <form  action="{{route('user.ticket.close', $ticket->slug)}}" class="align-right">
                 @csrf
                 <button class="btn btn-danger mb-2" type="submit"><i class="fa fa-trash"></i> Close ticket</button>
             </form>

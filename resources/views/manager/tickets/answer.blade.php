@@ -53,7 +53,7 @@
         </div>
         @endisset
         <hr>
-        <form method="POST" action="{{ route('manager.ticket.post.comment', $ticket->id) }}">
+        <form method="POST" action="{{ route('manager.ticket.post.comment', $ticket->slug) }}">
             @csrf
             <div class="form-group">
                 <textarea id="comment" class="form-control" name="comment" rows="3" placeholder="Type comment..."></textarea>
@@ -61,7 +61,7 @@
             <button type="submit" class="btn btn-success mb-2"><i class="fas fa-paper-plane"></i> Leave comment</button>
         </form>
         <div class="row p-2" style="float:right;">
-            <form action="{{route('manager.ticket.solve', $ticket->id)}}" >
+            <form action="{{route('manager.ticket.solve', $ticket->slug)}}" >
                 @csrf
                 <button class="btn btn-warning mb-2" type="submit"><i class="fa fa-trash"></i> Solve ticket</button>
             </form>
