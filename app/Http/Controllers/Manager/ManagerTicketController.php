@@ -87,12 +87,12 @@ class ManagerTicketController extends Controller
         $ticket = Tickets::where('slug',$slug)->first();
         $comment = Comments::find($ticket->id);
 
-        if ($ticket->status == Tickets::STATUS_ANSWERED && $comment->users->role == User::ROLE_MANAGER && ($ticket->status != Tickets::STATUS_VIEWED && $ticket->status != Tickets::STATUS_PENDING && $ticket->status != Tickets::STATUS_NEW)) {
+        if ($ticket->status == Tickets::STATUS_ANSWERED && $comment->users->role == User::ROLE_MANAGER || ($ticket->status != Tickets::STATUS_VIEWED && $ticket->status != Tickets::STATUS_PENDING && $ticket->status != Tickets::STATUS_NEW)) {
             $ticket->update([
                 'status' => Tickets::STATUS_SOLVED,
             ]);
             /* send mail to user */
-            Mail::to($ticket->users->email)->send(new MailtrapExample($ticket->users->name, $comment= '',$ticket->slug, $statusChanged='solved'));
+            Mail::to($ticket->users->email)->send(new MailtrapExample($ticket->users->name, $comment= '',$ticket->slug, $statusChanged='solved',$ticket->users->email ));
             /* send mail to user */
             return redirect()->back()->with('success', 'Ticket solved successfully!');
         }else{
