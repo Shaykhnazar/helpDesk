@@ -18,7 +18,9 @@ class ManagerMiddleware
         $user = Auth::user();
         if ($user && $user->role == User::ROLE_MANAGER) {
             return $next($request);
-        }else {
+        }/* else if($request->input('email')){
+            return redirect()->route('login')->with($request->input('email'));
+        } */else {
             return response()->json('Forbidden', 403);
         }
     }
