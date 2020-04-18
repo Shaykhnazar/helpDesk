@@ -13,13 +13,22 @@
 
 ## Installation
 
-1. Clone the repo and cd into it
-2. composer install
-3. Rename or copy .env.example file to .env
-4. Set database your localhost
-5. Rename database name, user, password in .env file
-6. php artisan key:generate
-7. Set your database credentials in your .env file
-8. In command line type-> php artisan migrate
-9. Then->  php artisan db:seed --class UsersTableSeeder
-10. After-> php artisan serve
+**1.** Clone the repo and cd into it
+
+**2.** _composer install_
+
+**3.** Rename or _copy .env.example file to .env_
+
+**4.** Set database your localhost
+
+**5.** Rename database name, user, password in _.env_ file
+
+**6.** _php artisan key:generate_
+
+**7.** Set your database credentials in your _.env_ file
+
+**8.** In command line type-> _php artisan migrate_
+
+**9.** Then->  _php artisan db:seed --class UsersTableSeeder_
+
+**10.** After-> _php artisan serve_
